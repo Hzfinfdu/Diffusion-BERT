@@ -2,7 +2,7 @@
 
 ![](src/DiffusionBERT.gif)
 
-Official implementation of DiffusionBERT: Improving Generative Masked Language Models with Diffusion Models.
+Official implementation of [DiffusionBERT: Improving Generative Masked Language Models with Diffusion Models](https://arxiv.org/abs/2211.15029).
 Please check out our [paper](https://arxiv.org/abs/2211.15029) for more details.
 
 Work in progress. We will release the complete code upon exploring more tasks and applications.
