@@ -20,3 +20,15 @@ We explore training BERT to learn the reverse process of a discrete diffusion pr
 First, we propose a new noise schedule for the forward diffusion process that controls the degree of noise added at each step based on the information of each token.
 Second, we investigate several designs of incorporating the time step into BERT.
 Experiments on unconditional text generation demonstrate that DiffusionBERT achieves significant improvement over existing diffusion models for text (e.g., D3PM and Diffusion-LM) and previous generative masked language models in terms of perplexity and BLEU score.
+
+### Citation
+
+```
+@article{he2022diffusionbert,
+  title={DiffusionBERT: Improving Generative Masked Language Models with Diffusion Models},
+  author={He, Zhengfu and Sun, Tianxiang and Wang, Kuanning and Huang, Xuanjing and Qiu, Xipeng},
+  journal={arXiv preprint arXiv:2211.15029},
+  year={2022}
+}
+```
+
