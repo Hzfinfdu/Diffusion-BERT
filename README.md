@@ -34,6 +34,8 @@ The LM1B dataset is available at 🤗 Datasets. We use the same data for conditi
 
 ### Training
 
+To add spindle schedule into our training process, we first need to run `python word_freq.py` to get the frequency in the text corpus.
+
 We have prepared the default training parameters in `run.sh` for unconditional generation and `run_condition.sh` for *Seq2seq* tasks.
 
 In general, training with only 1 NVIDIA RTX 3090 GPU acheives comparable performance with the results reported in the paper. But this requires gradient accumulation to slightly enlarge the batch size, say 64.
