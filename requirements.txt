@@ -1,0 +1,8 @@
+datasets==2.7.0
+fastNLP==1.0.1
+fitlog==0.9.13
+nltk==3.7
+numpy==1.23.4
+torch==1.12.1+cu113
+torchmetrics==0.11.0
+transformers==4.21.1
