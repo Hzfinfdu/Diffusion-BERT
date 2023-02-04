@@ -15,7 +15,7 @@ train_data = DiffusionLoader(tokenizer=tokenizer).my_load(task_name='lm1b', spli
 word_freq = torch.zeros((tokenizer.vocab_size,), dtype=torch.int64)
 
 for data in tqdm(train_data):
-    for iid in train_data['input_ids']:
+    for iid in data['input_ids']:
         word_freq[iid] += 1
 
 if not os.path.exists('./word_freq'):
