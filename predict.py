@@ -1,9 +1,6 @@
 import torch
 import os
 from transformers import BertTokenizer, BertConfig
-from transformers import BertTokenizer as ElasticBertTokenizer
-from models.modeling_elasticbert import ElasticBertForPreTraining
-from models.configuration_elasticbert import ElasticBertConfig
 from perplexity import ppl
 from sample import Categorical, WholeWordMasking
 import time
