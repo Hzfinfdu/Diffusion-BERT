@@ -1,7 +1,6 @@
 import torch
 import os
 from transformers import BertTokenizer, BertConfig
-from perplexity import ppl
 from sample import Categorical, WholeWordMasking
 import time
 from tqdm import tqdm
