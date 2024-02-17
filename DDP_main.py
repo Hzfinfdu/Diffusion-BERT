@@ -326,9 +326,10 @@ if __name__ == '__main__':
                         for name in dev_metrics.keys():
                             dev_metrics[name] /= len(dev_data)
                             fitlog.add_metric(dev_metrics[name], name=name, step=i)
-                            wandb.log({"val elbo": dev_metrics["elbo"], 
-                                       "val elbo_in_bits_per_dim": dev_metrics["elbo_in_bits_per_dim"],
-                                       "train step": i})
+                        
+                        wandb.log({"val elbo": dev_metrics["elbo"], 
+                                    "val elbo_in_bits_per_dim": dev_metrics["elbo_in_bits_per_dim"],
+                                    "train step": i})
 
 
                         if dev_metrics['elbo_in_bits_per_dim'] <= best_dev_elbo:
