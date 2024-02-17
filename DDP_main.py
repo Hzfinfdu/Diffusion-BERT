@@ -18,6 +18,7 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 import math
 import datetime
+import wandb
 
 def set_seed(args):
     random.seed(args.seed)
@@ -78,6 +79,25 @@ if __name__ == '__main__':
         fitlog.add_hyper_in_file(__file__)
 
         save_path = f'./model_name_{args.model_name_or_path}_lr_{args.lr}_seed_{args.seed}_numsteps_{args.num_steps}_sample_{args.sample_strategy}_schedule_{args.schedule}_hybridlambda_{args.hybrid_lambda}_wordfreqlambda_{args.word_freq_lambda}_fromscratch_{args.from_scratch}_timestep_{args.timestep}_ckpts'
+    
+        wandb_name = f"{args.model_name_or_path}-lr_{args.lr}-seed_{args.seed}-numsteps_{args.num_steps}-sample_{args.sample_strategy}-schedule_{args.schedule}-hybridlambda_{args.hybrid_lambda}-wordfreqlambda_{args.word_freq_lambda}-fromscratch_{args.from_scratch}-timestep_{args.timestep}"
+        wandb.init(
+                  project="diffusion_bert", 
+                  name=wandb_name, 
+                  config={
+                  "learning_rate": args.lr,
+                  "architecture": args.model_name_or_path,
+                  "from_scratch": args.from_scratch,
+                  "epochs": args.epochs,
+                  "num_steps": args.num_steps,
+                  "hybrid_lambda": args.hybrid_lambda,
+                  "sample_strategy": args.sample_strategy,
+                  "schedule": args.schedule,
+                  "word_freq_lambda": args.wordfreqlambda,
+                  "seed": args.seed,
+                  "timestep": args.timestep,
+                  })
+    
     if args.model_name_or_path in ['bert-base-uncased', 'bert-large-uncased']:
         model_cls = BertForMaskedLM
         cfg_cls = BertConfig
@@ -261,7 +281,8 @@ if __name__ == '__main__':
                 if i % args.logging_steps == args.logging_steps - 1:
                     logger.info(f'Loss at step {i} is {train_loss / args.logging_steps}')
                     fitlog.add_loss(train_loss / args.logging_steps, name='train_loss', step=i)
-
+                    wandb.log({"train loss": train_loss / args.logging_steps, 
+                               "train step": i})
                     train_loss = .0
 
             if i % args.eval_steps == args.eval_steps - 1:
@@ -305,6 +326,10 @@ if __name__ == '__main__':
                         for name in dev_metrics.keys():
                             dev_metrics[name] /= len(dev_data)
                             fitlog.add_metric(dev_metrics[name], name=name, step=i)
+                            wandb.log({"val elbo": dev_metrics["elbo"], 
+                                       "val elbo_in_bits_per_dim": dev_metrics["elbo_in_bits_per_dim"],
+                                       "train step": i})
+
 
                         if dev_metrics['elbo_in_bits_per_dim'] <= best_dev_elbo:
                             best_dev_elbo = dev_metrics['elbo_in_bits_per_dim']
@@ -315,4 +340,6 @@ if __name__ == '__main__':
                                 'warmup_scheduler': warmup_scheduler.state_dict(),
                             }, f'./{save_path}/best({i}).th')
                     model.train()
+
+    wandb.finish()
 
