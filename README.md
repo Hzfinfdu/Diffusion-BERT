@@ -1,4 +1,4 @@
-# Diffusion Models beat Auto-regressive Models on Text Generations
+# Diffusion Models beat Auto-regressive Models on Text Generation
 
 Adapted from [DiffusionBERT: Improving Generative Masked Language Models with Diffusion Models](https://arxiv.org/abs/2211.15029).
 
